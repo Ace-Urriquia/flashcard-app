@@ -1,0 +1,62 @@
+/* Apply the gradient to the body or the whole page */
+body {
+  margin: 0;
+  height: 100vh; /* Ensure the body takes full height */
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .register-container should not have a fixed width */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ensure it takes full viewport height */
+  width: 100%; /* Take full width */
+}
+
+.register-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.register-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.register-card input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-card button {
+  width: 100%;
+  padding: 10px;
+  background: #2575fc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register-card p {
+  margin-top: 15px;
+}
+
+@media (max-width: 600px) {
+  .register-card {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}
