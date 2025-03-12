@@ -7,7 +7,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const authRoutes = require("./routes/authRoutes");
-const flashcardRoutes = require("./routes/flashcardRoutes"); // Correct name
+const flashcardRoutes = require("./routes/flashcards"); // Correct name
 
 
 const app = express();
