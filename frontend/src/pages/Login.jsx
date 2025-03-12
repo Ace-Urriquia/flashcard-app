@@ -6,6 +6,7 @@ import "./Login.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,7 +16,7 @@ const Login = () => {
         { email, password }
       );
       localStorage.setItem("token", response.data.token);
-      window.location.href = "/flashcards";
+      navigate("/flashcards");
     } catch (error) {
       alert("Invalid credentials");
     }
