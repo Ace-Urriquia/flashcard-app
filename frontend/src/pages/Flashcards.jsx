@@ -21,7 +21,7 @@ const Flashcards = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:3000/api/flashcards", {
+        const response = await axios.get("https://flashcard-app-backend-qfev.onrender.com/api/flashcards", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFlashcards(response.data);
@@ -51,7 +51,7 @@ const Flashcards = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:3000/api/flashcards",
+        "https://flashcard-app-backend-qfev.onrender.com/api/flashcards",
         { question, answer },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -71,7 +71,7 @@ const Flashcards = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.delete(`http://localhost:3000/api/flashcards/${id}`, {
+      const response = await axios.delete(`https://flashcard-app-backend-qfev.onrender.com/api/flashcards/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
