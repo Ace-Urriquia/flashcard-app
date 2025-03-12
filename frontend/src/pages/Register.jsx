@@ -19,7 +19,7 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/auth/register", { username, email, password });
+      await axios.post("https://flashcard-app-backend-qfev.onrender.com/api/auth/register", { username, email, password });
       handleShowAlert("Registration successful!", "success");
       setTimeout(() => navigate("/login"), 2000); // Redirect after 2s
     } catch (error) {
