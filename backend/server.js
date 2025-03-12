@@ -11,7 +11,7 @@ const flashcardRoutes = require("./routes/flashcards");
 
 const app = express();
 
-app.use(cors({ origin: "https://flashcard-app-backend-qfev.onrender.com", credentials: true }));
+app.use(cors({ origin: "https://flashcard-app-frontend-aceurriquia.onrender.com", credentials: true }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
