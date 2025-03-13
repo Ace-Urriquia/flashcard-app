@@ -5,7 +5,7 @@ const Flashcard = require("../models/Flashcard");
 
 
 // Get all flashcards for the logged-in user
-router.get("/api/flashcards", authMiddleware, async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     console.log("🔍 Fetching flashcards for user:", req.user.userId); 
     const flashcards = await Flashcard.find({ userId: req.user.userId }); 
@@ -22,7 +22,7 @@ router.get("/api/flashcards", authMiddleware, async (req, res) => {
 });
 
 // Add a new flashcard
-router.post("/api/flashcards", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   const { question, answer } = req.body;
 
   if (!question || !answer) {
