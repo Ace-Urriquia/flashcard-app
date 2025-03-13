@@ -19,7 +19,7 @@ const Flashcards = () => {
         return;
       }
       try {
-        const response = await axios.get("https://flashcard-app-backend.onrender.com/api/flashcards/", {
+        const response = await axios.get("https://flashcard-app-backend.onrender.com/api/flashcards", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFlashcards(response.data);
