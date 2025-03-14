@@ -35,35 +35,35 @@ const Flashcards = () => {
   };
 
   const handleAddFlashcard = async () => {
-
-     if (!token) {
-        console.error("No token found, redirecting to login.");
+    const token = localStorage.getItem("token");  // ✅ Ensure this line is here
+    if (!token) {
+        alert("No token found. Please log in again.");
         navigate("/login");
         return;
-      }
-    
-    if (!question.trim() || !answer.trim()) {
-      alert("Both question and answer are required!");
-      return;
     }
 
-        console.log("🚀 Sending data:", { question, answer });
-    
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "https://flashcard-app-backend.onrender.com/api/flashcards",
-        { question, answer },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setFlashcards([...flashcards, response.data]);
-      setQuestion("");
-      setAnswer("");
-    } catch (error) {
-      console.error("Error adding flashcard:", error);
-      alert("Failed to add flashcard. Please try again.");
+    if (!question.trim() || !answer.trim()) {
+        alert("Both question and answer are required!");
+        return;
     }
-  };
+
+    console.log("🚀 Sending data:", { question, answer });
+
+    try {
+        const response = await axios.post(
+            "https://flashcard-app-backend.onrender.com/api/flashcards",
+            { question, answer },
+            { headers: { Authorization: `Bearer ${token}` } }  // ✅ Token added here
+        );
+        setFlashcards([...flashcards, response.data]);
+        setQuestion("");
+        setAnswer("");
+    } catch (error) {
+        console.error("Error adding flashcard:", error);
+        alert("Failed to add flashcard. Please try again.");
+    }
+};
+
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
