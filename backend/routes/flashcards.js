@@ -29,6 +29,8 @@ router.get("/", authMiddleware, async (req, res) => {
 
 // Add a new flashcard
 router.post("/", authMiddleware, async (req, res) => {
+
+  console.log("🔍 Authenticated user data:", req.user);
   const { question, answer } = req.body;
 
   if (!question || !answer) {
