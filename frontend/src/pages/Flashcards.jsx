@@ -13,11 +13,8 @@ const Flashcards = () => {
   useEffect(() => {
     const fetchFlashcards = async () => {
       const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found, redirecting to login.");
-        navigate("/login");
-        return;
-      }
+   
+      
       try {
         const response = await axios.get("https://flashcard-app-backend.onrender.com/api/flashcards", {
           headers: { Authorization: `Bearer ${token}` },
@@ -38,10 +35,20 @@ const Flashcards = () => {
   };
 
   const handleAddFlashcard = async () => {
+
+     if (!token) {
+        console.error("No token found, redirecting to login.");
+        navigate("/login");
+        return;
+      }
+    
     if (!question.trim() || !answer.trim()) {
       alert("Both question and answer are required!");
       return;
     }
+
+        console.log("🚀 Sending data:", { question, answer });
+    
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
