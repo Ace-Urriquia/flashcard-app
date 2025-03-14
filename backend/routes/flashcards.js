@@ -10,6 +10,12 @@ router.get("/", authMiddleware, async (req, res) => {
     console.log("🔍 Fetching flashcards for user:", req.user.userId); 
     const flashcards = await Flashcard.find({ userId: req.user.userId }); 
 
+      if (!token) {
+        alert("No token found. Please log in again.");
+        navigate("/login");
+        return;
+    }
+
     if (!flashcards) {
       console.log("⚠️ No flashcards found for user:", req.user.userId);
     }
@@ -29,6 +35,11 @@ router.post("/", authMiddleware, async (req, res) => {
     console.log("❌ Missing question or answer in request body");
     return res.status(400).json({ message: "Both question and answer are required" });
   }
+
+  
+  // 🔥 Add these logs here
+  console.log("👤 User ID in request:", req.user?.userId);
+  console.log("📋 Incoming Data:", req.body);
 
   try {
     const newFlashcard = new Flashcard({
