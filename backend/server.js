@@ -5,27 +5,25 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-// ✅ Ensure required environment variables are set
 if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
   console.error("❌ ERROR: Missing required environment variables (MONGO_URI or JWT_SECRET). Check your .env file.");
   process.exit(1);
 }
 
 const authRoutes = require("./routes/authRoutes");
-const flashcardRoutes = require("./routes/flashcards"); // ✅ Ensure this is correct
+const flashcardRoutes = require("./routes/flashcards"); // ✅ Ensure flashcards route is loaded
 
 const app = express();
 
-app.use(cors({ origin: "*", credentials: true })); // ✅ Allow all origins for testing
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("✅ Flashcard App Backend is Running 🚀");
 });
 
-// ✅ Ensure routes are registered correctly
 app.use("/api/auth", authRoutes);
-app.use("/api/flashcards", flashcardRoutes); // ✅ This is important!
+app.use("/api/flashcards", flashcardRoutes); // ✅ Register flashcards route
 
 mongoose
   .connect(process.env.MONGO_URI)
