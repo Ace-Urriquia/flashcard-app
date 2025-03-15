@@ -3,21 +3,15 @@ const router = express.Router();
 const authMiddleware = require("../middleware/auth");
 const Flashcard = require("../models/Flashcard");
 
-
-// Get all flashcards for the logged-in user
+// ✅ Get all flashcards for the logged-in user
 router.get("/", authMiddleware, async (req, res) => {
   try {
-     if (!req.user || !req.user.userId) {
-      return res.status(401).json({ message: "Unauthorized: User ID missing" });
+    if (!req.user || !req.user.userId) {
+      return res.status(401).json({ message: "Unauthorized: No valid token provided." });
     }
 
-    
-    console.log("🔍 Fetching flashcards for user:", req.user.userId); 
-    const flashcards = await Flashcard.find({ userId: req.user.userId }); 
-
-    
-
-
+    console.log("🔍 Fetching flashcards for user:", req.user.userId);
+    const flashcards = await Flashcard.find({ userId: req.user.userId });
 
     res.json(flashcards);
   } catch (error) {
@@ -26,9 +20,8 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-// Add a new flashcard
+// ✅ Add a new flashcard
 router.post("/", authMiddleware, async (req, res) => {
-
   console.log("🔍 Authenticated user data:", req.user);
   const { question, answer } = req.body;
 
@@ -37,20 +30,15 @@ router.post("/", authMiddleware, async (req, res) => {
     return res.status(400).json({ message: "Both question and answer are required" });
   }
 
-   if (!req.user || !req.user.userId) {
-      return res.status(401).json({ message: "Unauthorized: User ID missing" });
-    }
-
-  
-  // 🔥 Add these logs here
-  console.log("👤 User ID in request:", req.user?.userId);
-  console.log("📋 Incoming Data:", req.body);
+  if (!req.user || !req.user.userId) {
+    return res.status(401).json({ message: "Unauthorized: User ID missing" });
+  }
 
   try {
     const newFlashcard = new Flashcard({
-      userId: req.user.userId,
+      userId: req.user.userId,  // ✅ Fixed duplicate key issue
       question,
-      answer,
+      answer,  // ✅ Ensure answer is included
     });
 
     await newFlashcard.save();
@@ -62,10 +50,14 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+// ✅ Delete a flashcard
 router.delete("/:id", authMiddleware, async (req, res) => {
-  await Flashcard.findByIdAndDelete(req.params.id);
-  res.json({ message: "Flashcard deleted" });
+  try {
+    await Flashcard.findByIdAndDelete(req.params.id);
+    res.json({ message: "Flashcard deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting flashcard" });
+  }
 });
-
 
 module.exports = router;
