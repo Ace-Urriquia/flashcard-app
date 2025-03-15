@@ -7,18 +7,15 @@ const Flashcard = require("../models/Flashcard");
 // Get all flashcards for the logged-in user
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    console.log("🔍 Fetching flashcards for user:", req.user.userId); 
-    const flashcards = await Flashcard.find({ userId: req.user.userId }); 
-
-      if (!token) {
-        alert("No token found. Please log in again.");
-        navigate("/login");
-        return;
-    }
-
      if (!req.user || !req.user.userId) {
       return res.status(401).json({ message: "Unauthorized: User ID missing" });
     }
+
+    
+    console.log("🔍 Fetching flashcards for user:", req.user.userId); 
+    const flashcards = await Flashcard.find({ userId: req.user.userId }); 
+
+    
 
 
 
