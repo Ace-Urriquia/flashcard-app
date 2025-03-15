@@ -8,39 +8,24 @@ dotenv.config();
 // ✅ Ensure required environment variables are set
 if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
   console.error("❌ ERROR: Missing required environment variables (MONGO_URI or JWT_SECRET). Check your .env file.");
-  process.exit(1); // Stop the server if critical variables are missing
+  process.exit(1);
 }
 
 const authRoutes = require("./routes/authRoutes");
-const flashcardRoutes = require("./routes/flashcards");
+const flashcardRoutes = require("./routes/flashcards"); // ✅ Ensure this is correct
 
 const app = express();
 
-// ✅ Improved CORS to allow both production & local development
-const allowedOrigins = [
-  "https://flashcard-app-frontend-aceurriquia.onrender.com",
-  "http://localhost:5173" // Add your local development URL
-];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("❌ CORS Not Allowed"));
-    }
-  },
-  credentials: true
-}));
-
+app.use(cors({ origin: "*", credentials: true })); // ✅ Allow all origins for testing
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Flashcard App Backend is Running 🚀");
+  res.send("✅ Flashcard App Backend is Running 🚀");
 });
 
+// ✅ Ensure routes are registered correctly
 app.use("/api/auth", authRoutes);
-app.use("/api/flashcards", flashcardRoutes);
+app.use("/api/flashcards", flashcardRoutes); // ✅ This is important!
 
 mongoose
   .connect(process.env.MONGO_URI)
