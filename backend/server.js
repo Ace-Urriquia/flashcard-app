@@ -1,18 +1,38 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-
 const dotenv = require("dotenv");
 
 dotenv.config();
 
-const authRoutes = require("./routes/authRoutes");
-const flashcardRoutes = require("./routes/flashcards"); // Correct name
+// ✅ Ensure required environment variables are set
+if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
+  console.error("❌ ERROR: Missing required environment variables (MONGO_URI or JWT_SECRET). Check your .env file.");
+  process.exit(1); // Stop the server if critical variables are missing
+}
 
+const authRoutes = require("./routes/authRoutes");
+const flashcardRoutes = require("./routes/flashcards");
 
 const app = express();
 
-app.use(cors({ origin: "https://flashcard-app-frontend-aceurriquia.onrender.com", credentials: true }));
+// ✅ Improved CORS to allow both production & local development
+const allowedOrigins = [
+  "https://flashcard-app-frontend-aceurriquia.onrender.com",
+  "http://localhost:5173" // Add your local development URL
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("❌ CORS Not Allowed"));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
