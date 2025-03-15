@@ -50,7 +50,7 @@ router.post("/", authMiddleware, async (req, res) => {
     const newFlashcard = new Flashcard({
       userId: req.user.userId,
       question,
-      userId: req.user.userId, // ✅ Ensure userId is set correctly
+      answer,
     });
 
     await newFlashcard.save();
