@@ -16,9 +16,11 @@ router.get("/", authMiddleware, async (req, res) => {
         return;
     }
 
-    if (!flashcards) {
-      console.log("⚠️ No flashcards found for user:", req.user.userId);
+     if (!req.user || !req.user.userId) {
+      return res.status(401).json({ message: "Unauthorized: User ID missing" });
     }
+
+
 
     res.json(flashcards);
   } catch (error) {
@@ -37,6 +39,10 @@ router.post("/", authMiddleware, async (req, res) => {
     console.log("❌ Missing question or answer in request body");
     return res.status(400).json({ message: "Both question and answer are required" });
   }
+
+   if (!req.user || !req.user.userId) {
+      return res.status(401).json({ message: "Unauthorized: User ID missing" });
+    }
 
   
   // 🔥 Add these logs here
