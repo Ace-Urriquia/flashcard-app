@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middleware/auth");
+// const authMiddleware = require("../middleware/auth"); // temporarily disabled for testing
 const Flashcard = require("../models/Flashcard");
 
 // ✅ Check if route is hit (DEBUGGING)
@@ -9,11 +9,12 @@ router.use((req, res, next) => {
   next();
 });
 
-// ✅ Get all flashcards
-router.get("/", authMiddleware, async (req, res) => {
+// ✅ Get all flashcards (testing without auth)
+router.get("/", async (req, res) => {
   try {
-    console.log("📥 Fetching flashcards for user:", req.user.userId);
-    const flashcards = await Flashcard.find({ userId: req.user.userId });
+    console.log("📥 Fetching flashcards (no auth)");
+    // For testing, fetch all flashcards regardless of user
+    const flashcards = await Flashcard.find({});
     res.json(flashcards);
   } catch (error) {
     console.error("❌ Error fetching flashcards:", error.message);
@@ -21,8 +22,8 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ Add a new flashcard
-router.post("/", authMiddleware, async (req, res) => {
+// ✅ Add a new flashcard (testing without auth)
+router.post("/", async (req, res) => {
   try {
     const { question, answer } = req.body;
 
@@ -30,10 +31,9 @@ router.post("/", authMiddleware, async (req, res) => {
       return res.status(400).json({ message: "Both question and answer are required." });
     }
 
-    console.log("📤 Creating flashcard for user:", req.user.userId);
+    console.log("📤 Creating flashcard (no auth)");
 
     const newFlashcard = new Flashcard({
-      userId: req.user.userId,
       question,
       answer,
     });
@@ -46,8 +46,8 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ Delete a flashcard
-router.delete("/:id", authMiddleware, async (req, res) => {
+// ✅ Delete a flashcard (testing without auth)
+router.delete("/:id", async (req, res) => {
   try {
     console.log("🗑️ Deleting flashcard ID:", req.params.id);
     await Flashcard.findByIdAndDelete(req.params.id);
