@@ -3,10 +3,16 @@ const router = express.Router();
 const authMiddleware = require("../middleware/auth");
 const Flashcard = require("../models/Flashcard");
 
-// ✅ Get all flashcards for the logged-in user
+// ✅ Check if route is hit (DEBUGGING)
+router.use((req, res, next) => {
+  console.log("🔍 Flashcards Route Hit:", req.method, req.path);
+  next();
+});
+
+// ✅ Get all flashcards
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    console.log("🔍 Fetching flashcards for user:", req.user.userId);
+    console.log("📥 Fetching flashcards for user:", req.user.userId);
     const flashcards = await Flashcard.find({ userId: req.user.userId });
     res.json(flashcards);
   } catch (error) {
@@ -25,7 +31,7 @@ router.post("/", authMiddleware, async (req, res) => {
     }
 
     console.log("📤 Creating flashcard for user:", req.user.userId);
-    
+
     const newFlashcard = new Flashcard({
       userId: req.user.userId,
       question,
