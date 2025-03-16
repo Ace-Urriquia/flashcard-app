@@ -10,7 +10,7 @@ router.use((req, res, next) => {
 });
 
 // ✅ Get all flashcards
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     console.log("📥 Fetching flashcards for user:", req.user.userId);
     const flashcards = await Flashcard.find({ userId: req.user.userId });
