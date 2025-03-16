@@ -13,7 +13,7 @@ if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
 
 // ✅ Load Routes
 const authRoutes = require("./routes/authRoutes");
-const flashcardRoutes = require("./routes/flashcards"); // ✅ Make sure this is correct
+const flashcardRoutes = require("./routes/flashcards"); // ✅ Register flashcards route
 
 const app = express();
 
@@ -31,12 +31,12 @@ app.use("/api/flashcards", flashcardRoutes); // ✅ Ensure this is included
 
 // ✅ MongoDB Connection
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => {
     console.error("❌ MongoDB Connection Error:", err);
     process.exit(1);
   });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
